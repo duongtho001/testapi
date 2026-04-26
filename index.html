@@ -22,7 +22,6 @@
       --glass-blur: blur(12px);
     }
 
-
     * {
       box-sizing: border-box;
       margin: 0;
@@ -30,9 +29,872 @@
       font-family: 'Inter', sans-serif;
     }
 
-
     body {
       background-color: var(--bg-base);
       color: var(--text-main);
       min-height: 100vh;
       display: flex;
+      flex-direction: column;
+      background-image: radial-gradient(circle at top right, rgba(59, 130, 246, 0.15), transparent 40%),
+                        radial-gradient(circle at bottom left, rgba(139, 92, 246, 0.15), transparent 40%);
+      background-attachment: fixed;
+    }
+
+    /* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: var(--glass-blur);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.5px;
+    }
+
+    .account-btn {
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .account-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .credit-badge {
+      background: var(--accent-gradient);
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      flex: 1;
+      display: grid;
+      grid-template-columns: 350px 1fr;
+      gap: 2rem;
+    }
+
+    @media (max-width: 900px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Sidebar Controls */
+    .controls-panel {
+      background: var(--bg-panel);
+      backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 1.5rem;
+      height: fit-content;
+    }
+
+    .tabs {
+      display: flex;
+      background: var(--bg-input);
+      border-radius: 12px;
+      padding: 4px;
+      margin-bottom: 1.5rem;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 0.75rem;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.875rem;
+      transition: all 0.3s ease;
+    }
+
+    .tab-btn.active {
+      background: var(--bg-panel);
+      color: var(--text-main);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      color: var(--text-muted);
+    }
+
+    .form-control {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 0.75rem 1rem;
+      border-radius: 12px;
+      font-size: 0.875rem;
+      transition: all 0.3s ease;
+      outline: none;
+    }
+
+    .form-control:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+    }
+
+    textarea.form-control {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .generate-btn {
+      width: 100%;
+      background: var(--accent-gradient);
+      color: white;
+      border: none;
+      padding: 1rem;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 10px 20px -10px rgba(59, 130, 246, 0.5);
+    }
+
+    .generate-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 25px -10px rgba(59, 130, 246, 0.6);
+    }
+
+    .generate-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* File Upload Area */
+    .upload-area {
+      border: 2px dashed var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: var(--bg-input);
+      position: relative;
+    }
+
+    .upload-area:hover, .upload-area.dragover {
+      border-color: var(--accent);
+      background: rgba(59, 130, 246, 0.05);
+    }
+
+    .upload-icon {
+      font-size: 2rem;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .upload-text {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+
+    .preview-image {
+      max-width: 100%;
+      max-height: 150px;
+      border-radius: 8px;
+      margin-top: 1rem;
+      display: none;
+    }
+
+    /* Jobs Area */
+    .jobs-area {
+      background: transparent;
+    }
+
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .jobs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .job-card {
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      backdrop-filter: var(--glass-blur);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+    }
+
+    .job-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .job-media-container {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: var(--bg-input);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .job-media-container img, .job-media-container video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .job-info {
+      padding: 1rem;
+    }
+
+    .job-prompt {
+      font-size: 0.875rem;
+      color: var(--text-main);
+      margin-bottom: 0.5rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .job-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .status-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      padding: 4px 8px;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px);
+    }
+
+    .status-processing { color: #fbbf24; }
+    .status-success { color: #34d399; }
+    .status-error { color: #f87171; }
+
+    .loader {
+      border: 3px solid rgba(255,255,255,0.1);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(5px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-content {
+      background: var(--bg-base);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 450px;
+      padding: 2rem;
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+    }
+
+    .modal-overlay.active .modal-content {
+      transform: translateY(0);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    .close-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 1.25rem;
+      transition: color 0.2s;
+    }
+
+    .close-btn:hover { color: var(--text-main); }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .stat-card {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Utilities */
+    .hidden { display: none !important; }
+    .btn-action {
+      background: rgba(255,255,255,0.1);
+      border: none;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      margin-top: 8px;
+    }
+    .btn-action:hover { background: rgba(255,255,255,0.2); }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="logo"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Studio</div>
+    <button class="account-btn" onclick="openModal()">
+      <i class="fa-solid fa-user-astronaut"></i>
+      <span id="nav-account-text">Cài đặt API Key</span>
+      <span id="nav-credit-badge" class="credit-badge hidden">0</span>
+    </button>
+  </nav>
+
+  <div class="container">
+    <!-- Controls -->
+    <aside class="controls-panel">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchMode('t2v')" id="tab-t2v">Video</button>
+        <button class="tab-btn" onclick="switchMode('t2i')" id="tab-t2i">Hình ảnh</button>
+      </div>
+
+      <!-- T2V Form -->
+      <div id="form-t2v" class="form-section">
+        <div class="form-group">
+          <label class="form-label">Mô tả video (Prompt)</label>
+          <textarea class="form-control" id="prompt-t2v" placeholder="VD: Một phi hành gia cưỡi ngựa trên sao hỏa, phong cách cinematic..."></textarea>
+        </div>
+        
+        <div class="form-group" style="display: flex; gap: 1rem;">
+          <div style="flex: 1;">
+            <label class="form-label">Tỷ lệ khung hình</label>
+            <select class="form-control" id="aspect-t2v">
+              <option value="16:9">16:9 (Ngang)</option>
+              <option value="9:16">9:16 (Dọc)</option>
+              <option value="1:1">1:1 (Vuông)</option>
+            </select>
+          </div>
+          <div style="flex: 1;">
+            <label class="form-label">Thời lượng</label>
+            <select class="form-control" id="duration-t2v">
+              <option value="8">8 giây</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Hình ảnh tham chiếu (Tùy chọn - I2V)</label>
+          <div class="upload-area" id="upload-i2v">
+            <input type="file" id="file-i2v" accept="image/*" class="hidden">
+            <div class="upload-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+            <div class="upload-text">Click hoặc kéo thả ảnh vào đây</div>
+            <img id="preview-i2v" class="preview-image" src="" alt="Preview">
+          </div>
+        </div>
+
+        <button class="generate-btn" id="btn-generate-video" onclick="generateMedia('video')">
+          <i class="fa-solid fa-film"></i> Tạo Video
+        </button>
+      </div>
+
+      <!-- T2I Form -->
+      <div id="form-t2i" class="form-section hidden">
+        <div class="form-group">
+          <label class="form-label">Mô tả hình ảnh (Prompt)</label>
+          <textarea class="form-control" id="prompt-t2i" placeholder="VD: Một thành phố tương lai cyberpunk rực rỡ ánh đèn neon..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Tỷ lệ khung hình</label>
+          <select class="form-control" id="aspect-t2i">
+            <option value="16:9">16:9 (Ngang)</option>
+            <option value="9:16">9:16 (Dọc)</option>
+            <option value="1:1">1:1 (Vuông)</option>
+          </select>
+        </div>
+
+        <button class="generate-btn" id="btn-generate-image" onclick="generateMedia('image')">
+          <i class="fa-solid fa-image"></i> Tạo Hình Ảnh
+        </button>
+      </div>
+    </aside>
+
+    <!-- Jobs Gallery -->
+    <main class="jobs-area">
+      <h2 class="section-title"><i class="fa-solid fa-clapperboard"></i> Tác phẩm của bạn</h2>
+      <div class="jobs-grid" id="jobs-container">
+        <!-- Jobs will be rendered here -->
+      </div>
+    </main>
+  </div>
+
+  <!-- Settings / Account Modal -->
+  <div class="modal-overlay" id="accountModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title"><i class="fa-solid fa-gear"></i> Cài đặt & Thông tin API</h3>
+        <button class="close-btn" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      
+      <div class="form-group hidden">
+        <label class="form-label">API Endpoint URL</label>
+        <input type="text" class="form-control" id="api-endpoint" value="https://won-doll-kid-envelope.trycloudflare.com" placeholder="https://abc.trycloudflare.com">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">API Key của bạn</label>
+        <input type="password" class="form-control" id="api-key" placeholder="Nhập API Key do Admin cung cấp">
+      </div>
+
+      <button class="generate-btn" onclick="checkApiKey()" id="btn-check-key">
+        <i class="fa-solid fa-arrows-rotate"></i> Kiểm tra Key
+      </button>
+
+      <div id="api-stats" class="hidden">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-value" id="stat-credits">-</div>
+            <div class="stat-label">Credit còn lại</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="stat-status">-</div>
+            <div class="stat-label">Trạng thái</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value"><span id="stat-video-used">0</span> / <span id="stat-video-quota">0</span></div>
+            <div class="stat-label">Video đã tạo</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value"><span id="stat-image-used">0</span> / <span id="stat-image-quota">0</span></div>
+            <div class="stat-label">Ảnh đã tạo</div>
+          </div>
+        </div>
+        <p style="text-align: center; font-size: 0.8rem; color: var(--text-muted); margin-top: 1rem;">
+          Hết hạn: <span id="stat-expire">-</span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Config
+    let API_URL = "https://won-doll-kid-envelope.trycloudflare.com";
+    let API_KEY = localStorage.getItem("goveoai_api_key") || "";
+    let jobs = JSON.parse(localStorage.getItem("goveoai_jobs") || "[]");
+    let checkInterval = null;
+
+    // Initialization
+    window.onload = () => {
+      document.getElementById('api-key').value = API_KEY;
+      if (API_KEY) {
+        checkApiKey(true);
+      }
+      renderJobs();
+      startPolling();
+    };
+
+    // UI Switching
+    function switchMode(mode) {
+      document.getElementById('tab-t2v').classList.remove('active');
+      document.getElementById('tab-t2i').classList.remove('active');
+      document.getElementById('form-t2v').classList.add('hidden');
+      document.getElementById('form-t2i').classList.add('hidden');
+
+      document.getElementById(`tab-${mode}`).classList.add('active');
+      document.getElementById(`form-${mode}`).classList.remove('hidden');
+    }
+
+    // Modal Handling
+    function openModal() {
+      document.getElementById('accountModal').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('accountModal').classList.remove('active');
+    }
+
+    // API Key Checking
+    async function checkApiKey(silent = false) {
+      const endpointInput = API_URL;
+      const keyInput = document.getElementById('api-key').value.trim();
+      const btn = document.getElementById('btn-check-key');
+
+      if (!keyInput) {
+        if (!silent) alert("Vui lòng nhập đầy đủ API Key!");
+        return;
+      }
+
+      API_URL = endpointInput;
+      API_KEY = keyInput;
+      localStorage.setItem("goveoai_api_key", API_KEY);
+
+      if (!silent) {
+        btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Đang kiểm tra...`;
+        btn.disabled = true;
+      }
+
+      try {
+        const res = await fetch(`${API_URL}/api/key/info`, {
+          headers: { "X-API-Key": API_KEY }
+        });
+        
+        const data = await res.json();
+        
+        if (res.ok && data.status === "success") {
+          const info = data.data;
+          
+          // Update UI
+          document.getElementById('api-stats').classList.remove('hidden');
+          document.getElementById('stat-credits').innerText = info.credits_remaining;
+          document.getElementById('stat-status').innerText = info.active ? "Đang hoạt động" : "Bị khóa";
+          document.getElementById('stat-status').style.color = info.active ? "var(--success)" : "var(--danger)";
+          
+          document.getElementById('stat-video-used').innerText = info.usage.video_used;
+          document.getElementById('stat-video-quota').innerText = info.usage.video_quota;
+          document.getElementById('stat-image-used').innerText = info.usage.image_used;
+          document.getElementById('stat-image-quota').innerText = info.usage.image_quota;
+          
+          document.getElementById('stat-expire').innerText = info.expires_at || "Vĩnh viễn";
+
+          // Update Nav
+          document.getElementById('nav-account-text').innerText = "Tài khoản";
+          document.getElementById('nav-credit-badge').innerText = info.credits_remaining;
+          document.getElementById('nav-credit-badge').classList.remove('hidden');
+        } else {
+          if (!silent) alert("Lỗi: " + (data.detail || data.message || "Key không hợp lệ"));
+          document.getElementById('api-stats').classList.add('hidden');
+        }
+      } catch (err) {
+        if (!silent) alert("Lỗi kết nối đến server: " + err.message);
+        document.getElementById('api-stats').classList.add('hidden');
+      } finally {
+        if (!silent) {
+          btn.innerHTML = `<i class="fa-solid fa-arrows-rotate"></i> Kiểm tra Key`;
+          btn.disabled = false;
+        }
+      }
+    }
+
+    // Image Upload Handling
+    const uploadArea = document.getElementById('upload-i2v');
+    const fileInput = document.getElementById('file-i2v');
+    const previewImg = document.getElementById('preview-i2v');
+    let uploadedBase64 = null;
+
+    uploadArea.addEventListener('click', () => fileInput.click());
+    
+    fileInput.addEventListener('change', function() {
+      if (this.files && this.files[0]) {
+        const file = this.files[0];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          previewImg.src = e.target.result;
+          previewImg.style.display = 'block';
+          uploadedBase64 = e.target.result;
+          uploadArea.querySelector('.upload-icon').style.display = 'none';
+          uploadArea.querySelector('.upload-text').style.display = 'none';
+        }
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Generate Media
+    async function generateMedia(type) {
+      if (!API_KEY) {
+        openModal();
+        alert("Vui lòng cài đặt API Key trước!");
+        return;
+      }
+
+      const isVideo = type === 'video';
+      const prompt = document.getElementById(isVideo ? 'prompt-t2v' : 'prompt-t2i').value.trim();
+      const aspect = document.getElementById(isVideo ? 'aspect-t2v' : 'aspect-t2i').value;
+      const btn = document.getElementById(isVideo ? 'btn-generate-video' : 'btn-generate-image');
+
+      if (!prompt) {
+        alert("Vui lòng nhập mô tả (prompt)!");
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Đang gửi yêu cầu...`;
+
+      try {
+        let endpoint = "";
+        let body = {};
+
+        if (isVideo) {
+          if (uploadedBase64) {
+            endpoint = "/api/image-to-video";
+            body = {
+              prompt: prompt,
+              image_base64: uploadedBase64.split(',')[1],
+              aspect_ratio: aspect
+            };
+          } else {
+            endpoint = "/api/text-to-video";
+            body = {
+              prompts: [prompt],
+              aspect_ratio: aspect,
+              duration: 8
+            };
+          }
+        } else {
+          endpoint = "/api/text-to-image";
+          body = {
+            prompts: [prompt],
+            aspect_ratio: aspect
+          };
+        }
+
+        const res = await fetch(`${API_URL}${endpoint}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-API-Key': API_KEY
+          },
+          body: JSON.stringify(body)
+        });
+
+        const data = await res.json();
+
+        if (res.ok && data.status === "success" && data.data && data.data.jobs) {
+          const newJobs = data.data.jobs.map(j => ({
+            id: j.job_id,
+            prompt: j.prompt,
+            type: isVideo ? "Video" : "Image",
+            status: "pending",
+            created_at: new Date().toISOString()
+          }));
+          
+          jobs = [...newJobs, ...jobs];
+          saveJobs();
+          renderJobs();
+          
+          // Clear form
+          document.getElementById(isVideo ? 'prompt-t2v' : 'prompt-t2i').value = "";
+          if (isVideo) {
+            uploadedBase64 = null;
+            previewImg.style.display = 'none';
+            uploadArea.querySelector('.upload-icon').style.display = 'block';
+            uploadArea.querySelector('.upload-text').style.display = 'block';
+          }
+          
+          // Refresh credits
+          checkApiKey(true);
+        } else {
+          alert("Lỗi tạo: " + (data.detail || data.message || "Không xác định"));
+        }
+      } catch (err) {
+        alert("Lỗi kết nối: " + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = isVideo ? `<i class="fa-solid fa-film"></i> Tạo Video` : `<i class="fa-solid fa-image"></i> Tạo Hình Ảnh`;
+      }
+    }
+
+    // Job Management
+    function saveJobs() {
+      localStorage.setItem("goveoai_jobs", JSON.stringify(jobs));
+    }
+
+    function renderJobs() {
+      const container = document.getElementById('jobs-container');
+      container.innerHTML = "";
+
+      if (jobs.length === 0) {
+        container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--text-muted); background: var(--bg-panel); border-radius: 16px; border: 1px dashed var(--border);">
+          <i class="fa-solid fa-ghost" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+          <p>Chưa có tác phẩm nào. Hãy tạo thử nhé!</p>
+        </div>`;
+        return;
+      }
+
+      jobs.forEach(job => {
+        let mediaHtml = `<div class="loader"></div>`;
+        let statusBadge = `<div class="status-badge status-processing"><i class="fa-solid fa-spinner fa-spin"></i> Đang xử lý</div>`;
+
+        if (job.status === "success" && job.result_url) {
+          statusBadge = `<div class="status-badge status-success"><i class="fa-solid fa-check"></i> Hoàn thành</div>`;
+          const proxyUrl = `${API_URL}${job.result_url}`;
+          if (job.type === "Video") {
+            mediaHtml = `<video src="${proxyUrl}" controls loop muted playsinline></video>`;
+          } else {
+            mediaHtml = `<img src="${proxyUrl}" alt="${job.prompt}" onclick="window.open('${proxyUrl}', '_blank')" style="cursor:pointer;">`;
+          }
+        } else if (job.status === "failed") {
+          statusBadge = `<div class="status-badge status-error"><i class="fa-solid fa-triangle-exclamation"></i> Lỗi</div>`;
+          mediaHtml = `<div style="text-align:center; color:var(--danger);"><i class="fa-solid fa-triangle-exclamation fa-2x"></i><br><small>${job.error || "Generation failed"}</small></div>`;
+        }
+
+        const dateStr = new Date(job.created_at).toLocaleString('vi-VN', {hour: '2-digit', minute:'2-digit', day:'2-digit', month:'2-digit'});
+
+        const card = document.createElement('div');
+        card.className = 'job-card';
+        card.innerHTML = `
+          <div class="job-media-container">
+            ${statusBadge}
+            ${mediaHtml}
+          </div>
+          <div class="job-info">
+            <div class="job-prompt" title="${job.prompt}">${job.prompt}</div>
+            <div class="job-meta">
+              <span><i class="fa-solid ${job.type === 'Video' ? 'fa-film' : 'fa-image'}"></i> ${job.type}</span>
+              <span>${dateStr}</span>
+            </div>
+            ${job.status === "success" ? `<button class="btn-action" onclick="window.open('${API_URL}${job.result_url}', '_blank')"><i class="fa-solid fa-download"></i> Tải xuống</button>` : ''}
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // Polling
+    function startPolling() {
+      if (checkInterval) clearInterval(checkInterval);
+      checkInterval = setInterval(async () => {
+        const pendingJobs = jobs.filter(j => j.status === "pending" || j.status === "running");
+        if (pendingJobs.length === 0) return;
+
+        let changed = false;
+        for (const job of pendingJobs) {
+          try {
+            const res = await fetch(`${API_URL}/api/job/${job.id}`, {
+              headers: { "X-API-Key": API_KEY }
+            });
+            const data = await res.json();
+            if (res.ok && data.status === "success") {
+              const info = data.data;
+              if (info.status === "success" || info.status === "failed") {
+                job.status = info.status;
+                if (info.status === "success") {
+                  job.result_url = info.result_url;
+                } else {
+                  job.error = info.error;
+                }
+                changed = true;
+              }
+            }
+          } catch (e) {
+             // Ignore polling errors
+          }
+        }
+        
+        if (changed) {
+          saveJobs();
+          renderJobs();
+          checkApiKey(true); // update credits
+        }
+      }, 5000);
+    }
+  </script>
+</body>
+</html>
